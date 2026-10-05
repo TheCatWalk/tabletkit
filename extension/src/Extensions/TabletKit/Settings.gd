@@ -9,6 +9,7 @@ const DEFAULTS := {
 	"hold_repeats": true,
 	"double_tap_fits": true,
 	"two_finger_rotate": false,
+	"display_quality": "high",
 	"finger_action": "move",
 	"long_press_tool": "ColorPicker",
 	"long_press_delay": 0.6,

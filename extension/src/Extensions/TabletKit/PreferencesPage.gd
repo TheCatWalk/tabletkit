@@ -10,6 +10,10 @@ const LONG_PRESS_TOOLS := [
 	["Color Picker", "ColorPicker"],
 	["Bucket", "Bucket"],
 ]
+const DISPLAY_QUALITIES := [
+	["Default", "default"],
+	["High quality", "high"],
+]
 const FINGER_ACTIONS := [
 	["Draw", "draw"],
 	["Move canvas", "move"],
@@ -79,6 +83,8 @@ func _build_page() -> VBoxContainer:
 	_add_choice(long_press, "Tool", "long_press_tool", LONG_PRESS_TOOLS)
 	_add_slider(long_press, "Delay", "long_press_delay", [0.2, 2.0, 0.05], "s")
 	_add_slider(long_press, "Movement limit", "long_press_movement_limit", [1.0, 30.0, 1.0], "px")
+	var canvas := _add_section(page, "Canvas")
+	_add_choice(canvas, "Display quality", "display_quality", DISPLAY_QUALITIES)
 	var other := _add_section(page, "Other")
 	_add_check(other, "Status line", "show_status_line")
 	return page

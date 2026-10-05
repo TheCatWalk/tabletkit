@@ -25,6 +25,12 @@ It was made on an XPPen Magic Note Pad (Android 14) with the X3 Pro Pencil 2, ru
 **Palm safety**
 - While the pen touches the screen, and for a moment after, fingers and palms are ignored.
 
+**Canvas display quality**
+- With **High quality** (the default), a rotated canvas shows straight, smooth pixel edges instead of jagged steps, like Clip Studio Paint's "High quality" display.
+- The canvas is drawn at the screen's full resolution. Pixelorama otherwise draws it at a lower resolution when the interface is scaled up.
+- Pixel edges, the canvas border, guides and the brush outline are smoothed only on screen. Your image, saved files and exports are not changed. When the canvas is not rotated and zoomed to whole steps, pixels show exactly as before.
+- Choose **Default** to get Pixelorama's original display back.
+
 Everything can be switched on or off in **Preferences → Touch**.
 
 ## Install
@@ -42,6 +48,7 @@ These come from the tablet or from Android, not from TabletKit:
 - While the pen hovers just above the screen, the tablet ignores fingers completely. Move the pen away to use finger gestures.
 - Some tablets have a system three-finger gesture (often for screenshots). On the tablet this was made on, it grabs three-finger touches even when switched off in settings, so three-finger taps work but holding three fingers does not.
 - Two-finger rotate and some other parts need Android. On a PC, TabletKit's pen and touch fixes simply do nothing.
+- High quality display covers the main canvas only, not the second canvas or the small preview. Image brushes, tile mode and active selections keep Pixelorama's own brush outline.
 
 ## Why this is needed
 

@@ -15,6 +15,7 @@ const FingerPair := preload(DIR + "FingerPair.gd")
 const OneFinger := preload(DIR + "OneFinger.gd")
 const StatusLine := preload(DIR + "StatusLine.gd")
 const PenActivity := preload(DIR + "PenActivity.gd")
+const CanvasQuality := preload(DIR + "CanvasQuality.gd")
 
 var _settings := Settings.new()
 var _actions := CanvasActions.new()
@@ -29,6 +30,7 @@ var _gestures := MultiTouchGestures.new()
 var _finger_pair := FingerPair.new()
 var _one_finger := OneFinger.new()
 var _status := StatusLine.new()
+var _canvas_quality := CanvasQuality.new()
 
 
 func _enter_tree() -> void:
@@ -47,6 +49,7 @@ func _exit_tree() -> void:
 	_guard.uninstall()
 	_tweaks.uninstall()
 	_finger_pair.uninstall()
+	_canvas_quality.set_high_quality(false)
 	_page.uninstall()
 	for node in _input_nodes():
 		node.queue_free()
@@ -93,6 +96,7 @@ func _setup() -> void:
 	_guard.install(_bridge)
 	_tweaks.install(_bridge)
 	_update_finger_pair()
+	_update_canvas_quality()
 	_page.install()
 
 
@@ -135,8 +139,11 @@ func _on_twisted(total_angle: float, pivot: Vector2) -> void:
 
 
 func _on_setting_changed(key: String, _value: Variant) -> void:
-	if key == "two_finger_rotate":
-		_update_finger_pair()
+	match key:
+		"two_finger_rotate":
+			_update_finger_pair()
+		"display_quality":
+			_update_canvas_quality()
 
 
 func _update_finger_pair() -> void:
@@ -144,6 +151,10 @@ func _update_finger_pair() -> void:
 		_finger_pair.install(_bridge)
 	else:
 		_finger_pair.uninstall()
+
+
+func _update_canvas_quality() -> void:
+	_canvas_quality.set_high_quality(_settings.value("display_quality") == "high")
 
 
 func _on_long_pressed(canvas_pixel: Vector2i) -> void:
