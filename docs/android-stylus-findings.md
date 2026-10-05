@@ -4,8 +4,6 @@ What Godot 4.7.2 does with a pen's side button on Android, why it breaks drawing
 
 Tested on an XPPen Magic Note Pad (Android 14, model MNP1095) with the X3 Pro Pencil 2, Pixelorama 1.2.3 (Godot 4.7.2).
 
-Reported to Godot as [#124191](https://github.com/godotengine/godot/issues/124191), [#124192](https://github.com/godotengine/godot/issues/124192) and [#124193](https://github.com/godotengine/godot/issues/124193).
-
 ## The hardware is fine
 
 Reading the pen directly from Android's input device (`getevent`) shows clean, correct signals: `BTN_TOUCH` when the tip touches, `BTN_STYLUS` when the side button is pressed, and normal position, pressure and tilt. Every problem below happens after Android hands the events to Godot.
