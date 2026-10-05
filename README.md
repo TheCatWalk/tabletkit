@@ -31,7 +31,21 @@ It was made on an XPPen Magic Note Pad (Android 14) with the X3 Pro Pencil 2, ru
 - Pixel edges, the canvas border, guides and the brush outline are smoothed only on screen. Your image, saved files and exports are not changed. When the canvas is not rotated and zoomed to whole steps, pixels show exactly as before.
 - Choose **Default** to get Pixelorama's original display back.
 
-Everything can be switched on or off in **Preferences → Touch**.
+**Top bar and layouts**
+- The pen tip's and side button's main tool settings (size, density, opacity or amount) sit in the top bar, after Main Menu. Tap the left or right half to step, drag sideways to slide. They never open the on-screen keyboard.
+- The top bar scrolls sideways with one finger when it does not fit, for example in portrait.
+- Two layouts are added under **Window → Layouts**: **Tablet** (layers on the right) and **Tablet Portrait** (canvas on top). TabletKit adds them once and never switches layout by itself. In **Preferences → Touch → Layouts** you can choose a layout for landscape and one for portrait, and TabletKit switches when you rotate the tablet.
+
+**Pen fixes**
+- Tapping layers and other list items with the pen works every time. Godot started a scroll on the pen's tiny lift movement, which cancelled the tap; lists now need a 10 px drag before they scroll.
+
+**Save to file automatically**
+- Off by default. Turn it on in **Preferences → Backup → Save to file**, and set how many seconds between saves.
+- It also saves when you leave Pixelorama. It only saves drawings that already have a file, never in the middle of a stroke.
+- While it is on, the save icon in the top bar is blue.
+- Pixelorama's own "autosave" only writes crash-recovery backups; it never saves your file.
+
+Everything else can be switched on or off in **Preferences → Touch**.
 
 ## Install
 
@@ -49,6 +63,8 @@ These come from the tablet or from Android, not from TabletKit:
 - Some tablets have a system three-finger gesture (often for screenshots). On the tablet this was made on, it grabs three-finger touches even when switched off in settings, so three-finger taps work but holding three fingers does not.
 - Two-finger rotate and some other parts need Android. On a PC, TabletKit's pen and touch fixes simply do nothing.
 - High quality display covers the main canvas only, not the second canvas or the small preview. Image brushes, tile mode and active selections keep Pixelorama's own brush outline.
+- Finger gestures (two-finger tap undo, hold, twist) only count when the first finger lands on the main canvas.
+- Automatic saving also saves mistakes. Pixelorama's crash-recovery backups (Preferences → Backup) keep earlier versions.
 
 ## Other extensions
 

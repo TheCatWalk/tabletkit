@@ -29,6 +29,14 @@ Clip Studio Paint ("Display quality: High quality") and Krita (display filtering
 
 Tried and dropped: MSAA on the canvas viewport (no effect with Godot's Compatibility renderer), and resizing the canvas viewport itself (Godot passes input to it in the smaller coordinates, so every pen position would have needed correcting).
 
+## 1.1.0: tablet workflow
+
+- **Pen taps on lists.** Tapping a layer with the pen often only highlighted it. Logging showed the pen sends a 1-2 px hover movement as it lifts; Godot's ScrollContainer (scroll deadzone 0 by default) treats any movement after a press as a touch scroll, and starting a scroll cancels the pressed button. TabletKit sets a 10 px deadzone on every ScrollContainer.
+- **Top bar.** Pixelorama's top bar is wider than a portrait screen, which made the whole window wider than the screen and pinned every dock split. TabletKit wraps the bar in a horizontal scroll area, keeps Main Menu and its tool strip pinned on the left, and lets one-finger drags on buttons scroll it.
+- **Tool strip.** Pixelorama's sliders open the on-screen keyboard on a tap. The strip mirrors the pen-tip and side-button tool's main sliders as touch steppers and follows tool, layer and brush changes.
+- **Layouts.** "Tablet" and "Tablet Portrait" are created once after Pixelorama has opened. Pixelorama remembers the selected layout by its position in the list, so TabletKit re-saves that position after adding them.
+- **Save to file.** Optional automatic saving every N seconds and when the app is left, using Pixelorama's normal save without the notification.
+
 ## Ideas that were tried and dropped
 
 - **Quick pinch to fit the canvas.** Detecting a "quick" pinch by speed could not tell a deliberate flick from a normal zoom-out reliably, and people pinch at different speeds. One-finger double-tap replaced it.

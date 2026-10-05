@@ -3,8 +3,11 @@ extends RefCounted
 const PAGE_NAME := "Touch"
 const DIALOG_NAME := "PreferencesDialog"
 const INSERT_AFTER := "Tools"
+const BACKUP_PAGE := "Backup"
+const BACKUP_SECTION_NAME := "TabletKitSaveToFile"
 const RestoreButton := preload("res://src/Extensions/TabletKit/SettingRestoreButton.gd")
 const Settings := preload("res://src/Extensions/TabletKit/Settings.gd")
+const OrientationLayouts := preload("res://src/Extensions/TabletKit/OrientationLayouts.gd")
 const LONG_PRESS_TOOLS := [
 	["None", ""],
 	["Color Picker", "ColorPicker"],
@@ -26,6 +29,8 @@ var settings: Settings
 var _dialogs: Node
 var _dialog: Node
 var _page: VBoxContainer
+var _backup_section: VBoxContainer
+var _layout_options: Dictionary[String, OptionButton] = {}
 
 
 func install() -> void:
@@ -48,6 +53,9 @@ func uninstall() -> void:
 		pages.remove_at(index)
 		_dialog.content_list = pages
 	_page.queue_free()
+	if is_instance_valid(_backup_section):
+		_backup_section.queue_free()
+	_layout_options.clear()
 	_dialog = null
 
 
@@ -65,6 +73,11 @@ func _attach(dialog: Node) -> void:
 	var pages: PackedStringArray = _dialog.content_list
 	pages.insert(pages.find(INSERT_AFTER) + 1, PAGE_NAME)
 	_dialog.content_list = pages
+	_page.visibility_changed.connect(_refresh_layout_choices)
+	var backup_page: Node = _dialog.right_side.get_node_or_null(BACKUP_PAGE)
+	if backup_page:
+		_backup_section = _build_backup_section()
+		backup_page.add_child(_backup_section)
 
 
 func _build_page() -> VBoxContainer:
@@ -85,9 +98,42 @@ func _build_page() -> VBoxContainer:
 	_add_slider(long_press, "Movement limit", "long_press_movement_limit", [1.0, 30.0, 1.0], "px")
 	var canvas := _add_section(page, "Canvas")
 	_add_choice(canvas, "Display quality", "display_quality", DISPLAY_QUALITIES)
+	var layouts := _add_section(page, "Layouts")
+	_layout_options["layout_landscape"] = _add_choice(layouts, "Landscape", "layout_landscape", _layout_choices())
+	_layout_options["layout_portrait"] = _add_choice(layouts, "Portrait", "layout_portrait", _layout_choices())
 	var other := _add_section(page, "Other")
+	_add_check(other, "Tool settings in top bar", "quick_tool_bar")
 	_add_check(other, "Status line", "show_status_line")
 	return page
+
+
+func _build_backup_section() -> VBoxContainer:
+	var section := VBoxContainer.new()
+	section.name = BACKUP_SECTION_NAME
+	var grid := _add_section(section, "Save to file")
+	_add_check(grid, "Save automatically", "autosave")
+	_add_slider(grid, "Every", "autosave_seconds", [5.0, 600.0, 5.0], "s")
+	return section
+
+
+func _refresh_layout_choices() -> void:
+	if not _page.visible:
+		return
+	var choices := _layout_choices()
+	for key in _layout_options:
+		var options := _layout_options[key]
+		options.clear()
+		for choice in choices:
+			options.add_item(choice[0])
+			options.set_item_metadata(options.item_count - 1, choice[1])
+		options.select(_choice_index(choices, settings.value(key)))
+
+
+func _layout_choices() -> Array:
+	var choices := [["Don't switch", ""]]
+	for layout_name in OrientationLayouts.layout_names():
+		choices.append([layout_name, layout_name])
+	return choices
 
 
 func _add_section(page: VBoxContainer, title: String) -> GridContainer:
@@ -133,7 +179,7 @@ func _add_slider(grid: GridContainer, text: String, key: String, range_values: A
 	restore.restore = func() -> void: slider.value = settings.default_of(key)
 
 
-func _add_choice(grid: GridContainer, text: String, key: String, choices: Array) -> void:
+func _add_choice(grid: GridContainer, text: String, key: String, choices: Array) -> OptionButton:
 	var options := OptionButton.new()
 	for choice in choices:
 		options.add_item(choice[0])
@@ -147,6 +193,7 @@ func _add_choice(grid: GridContainer, text: String, key: String, choices: Array)
 		var default_value: String = settings.default_of(key)
 		options.select(_choice_index(choices, default_value))
 		_store(key, default_value, restore)
+	return options
 
 
 func _add_row(grid: GridContainer, text: String, key: String, control: Control) -> RestoreButton:

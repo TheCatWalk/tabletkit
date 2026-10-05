@@ -8,6 +8,7 @@ signal twisted(total_angle: float, pivot: Vector2)
 const Settings := preload("res://src/Extensions/TabletKit/Settings.gd")
 const FingerPair := preload("res://src/Extensions/TabletKit/FingerPair.gd")
 const PenActivity := preload("res://src/Extensions/TabletKit/PenActivity.gd")
+const CanvasActions := preload("res://src/Extensions/TabletKit/CanvasActions.gd")
 const MIN_FINGERS := 2
 const TAP_MAX_MSEC := 350
 const TAP_MAX_PAN := 8.0
@@ -27,6 +28,7 @@ const TWIST_MIN_DISTANCE := 150.0
 var settings: Settings
 var pair: FingerPair
 var pen: PenActivity
+var actions: CanvasActions
 var _starts := {}
 var _most_fingers := 0
 var _started_msec := 0
@@ -42,6 +44,7 @@ var _twist_reference := 0.0
 var _twist_origin := 0.0
 var _twisting := false
 var _pinch_locked := false
+var _off_canvas := false
 
 
 func _ready() -> void:
@@ -68,6 +71,7 @@ func _on_touch(event: InputEventScreenTouch) -> void:
 	if event.pressed:
 		if _starts.is_empty():
 			_begin()
+			_off_canvas = not actions.is_over_canvas(event.position)
 		_starts[event.index] = event.position
 		_most_fingers = maxi(_most_fingers, _starts.size())
 		if _starts.size() == MIN_FINGERS:
@@ -110,12 +114,12 @@ func _end() -> void:
 	set_process(false)
 	var quick := Time.get_ticks_msec() - _started_msec <= TAP_MAX_MSEC
 	var still := not _dragged and _pan_travel <= TAP_MAX_PAN and absf(_zoom_log) <= TAP_MAX_ZOOM
-	if quick and still and not _spoiled and not _twisting and _hold_repeats == 0 and _most_fingers >= MIN_FINGERS:
+	if quick and still and not _spoiled and not _off_canvas and not _twisting and _hold_repeats == 0 and _most_fingers >= MIN_FINGERS:
 		tapped.emit(_most_fingers)
 
 
 func _update_hold() -> void:
-	if _starts.size() < MIN_FINGERS or _spoiled or not _landed_together or _twisting or not _held_still():
+	if _starts.size() < MIN_FINGERS or _spoiled or _off_canvas or not _landed_together or _twisting or not _held_still():
 		return
 	var now := Time.get_ticks_msec()
 	if now - _started_msec < HOLD_START_MSEC or now < _next_hold_msec:
@@ -166,4 +170,5 @@ func _can_twist() -> bool:
 		and pair.active
 		and _starts.size() == MIN_FINGERS
 		and not _spoiled
+		and not _off_canvas
 	)

@@ -16,6 +16,12 @@ const OneFinger := preload(DIR + "OneFinger.gd")
 const StatusLine := preload(DIR + "StatusLine.gd")
 const PenActivity := preload(DIR + "PenActivity.gd")
 const CanvasQuality := preload(DIR + "CanvasQuality.gd")
+const ScrollDeadzone := preload(DIR + "ScrollDeadzone.gd")
+const QuickToolBar := preload(DIR + "QuickToolBar.gd")
+const TopBarScroll := preload(DIR + "TopBarScroll.gd")
+const OrientationLayouts := preload(DIR + "OrientationLayouts.gd")
+const TabletLayouts := preload(DIR + "TabletLayouts.gd")
+const AutoSave := preload(DIR + "AutoSave.gd")
 
 var _settings := Settings.new()
 var _actions := CanvasActions.new()
@@ -31,13 +37,19 @@ var _finger_pair := FingerPair.new()
 var _one_finger := OneFinger.new()
 var _status := StatusLine.new()
 var _canvas_quality := CanvasQuality.new()
+var _scroll_deadzone := ScrollDeadzone.new()
+var _quick_tool_bar := QuickToolBar.new()
+var _top_bar := TopBarScroll.new()
+var _orientation_layouts := OrientationLayouts.new()
+var _tablet_layouts := TabletLayouts.new()
+var _auto_save := AutoSave.new()
 
 
 func _enter_tree() -> void:
 	_settings.load_from(Global.config_cache)
 	_configure()
 	_connect_signals()
-	for node in _input_nodes():
+	for node in _root_nodes():
 		node.name = "TabletKit" + node.get_script().resource_path.get_file().get_basename()
 		get_tree().root.add_child.call_deferred(node)
 	_setup.call_deferred()
@@ -50,8 +62,12 @@ func _exit_tree() -> void:
 	_tweaks.uninstall()
 	_finger_pair.uninstall()
 	_canvas_quality.set_high_quality(false)
+	_scroll_deadzone.uninstall()
+	_quick_tool_bar.uninstall()
+	_top_bar.uninstall()
+	_orientation_layouts.uninstall()
 	_page.uninstall()
-	for node in _input_nodes():
+	for node in _root_nodes():
 		node.queue_free()
 
 
@@ -66,12 +82,17 @@ func _configure() -> void:
 	_long_press.settings = _settings
 	_gestures.settings = _settings
 	_gestures.pair = _finger_pair
+	_gestures.actions = _actions
 	_one_finger.settings = _settings
 	_one_finger.actions = _actions
 	_status.settings = _settings
 	_status.version = _read_version()
 	_status.guard = _guard
 	_status.tweaks = _tweaks
+	_quick_tool_bar.top_bar = _top_bar
+	_orientation_layouts.settings = _settings
+	_tablet_layouts.settings = _settings
+	_auto_save.settings = _settings
 
 
 func _connect_signals() -> void:
@@ -86,8 +107,8 @@ func _connect_signals() -> void:
 	_settings.changed.connect(_on_setting_changed)
 
 
-func _input_nodes() -> Array[Node]:
-	return [_translator, _long_press, _gestures, _one_finger, _status]
+func _root_nodes() -> Array[Node]:
+	return [_translator, _long_press, _gestures, _one_finger, _status, _auto_save]
 
 
 func _setup() -> void:
@@ -97,6 +118,11 @@ func _setup() -> void:
 	_tweaks.install(_bridge)
 	_update_finger_pair()
 	_update_canvas_quality()
+	_scroll_deadzone.install()
+	_top_bar.install()
+	_tablet_layouts.install()
+	_orientation_layouts.install()
+	_update_quick_tool_bar()
 	_page.install()
 
 
@@ -144,6 +170,8 @@ func _on_setting_changed(key: String, _value: Variant) -> void:
 			_update_finger_pair()
 		"display_quality":
 			_update_canvas_quality()
+		"quick_tool_bar":
+			_update_quick_tool_bar()
 
 
 func _update_finger_pair() -> void:
@@ -151,6 +179,13 @@ func _update_finger_pair() -> void:
 		_finger_pair.install(_bridge)
 	else:
 		_finger_pair.uninstall()
+
+
+func _update_quick_tool_bar() -> void:
+	if _settings.value("quick_tool_bar"):
+		_quick_tool_bar.install()
+	else:
+		_quick_tool_bar.uninstall()
 
 
 func _update_canvas_quality() -> void:

@@ -1,5 +1,9 @@
 extends "res://src/UI/Canvas/Indicators.gd"
 
+const TOOL_MEMBERS := [
+	"_brush", "_cursor", "_draw_line", "_line_start", "_line_end", "_indicator", "_polylines", "_line_polylines"
+]
+
 
 func _draw() -> void:
 	if not Global.can_draw:
@@ -19,6 +23,9 @@ func _draw_tool_indicator(button: MouseButton, left: bool) -> void:
 
 
 func _can_draw_smooth(tool: BaseDrawTool) -> bool:
+	for member in TOOL_MEMBERS:
+		if not member in tool:
+			return false
 	return not (
 		tool._brush.type in BaseDrawTool.IMAGE_BRUSHES
 		or Tools.is_placing_tiles()

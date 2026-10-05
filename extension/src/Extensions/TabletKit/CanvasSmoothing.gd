@@ -73,13 +73,14 @@ var _originals := {}
 var _indicator_script: Script
 
 
-func install() -> bool:
-	var layers_patched := _patch(Global.canvas.material, LAYER_PATCH)
+func install() -> void:
+	if _indicator_script != null:
+		return
+	_patch(Global.canvas.material, LAYER_PATCH)
 	_patch(Global.transparent_checker.material, CHECKER_PATCH)
 	_indicator_script = Global.canvas.indicators.get_script()
 	Global.canvas.indicators.set_script(SmoothIndicators)
 	Global.canvas.queue_redraw()
-	return layers_patched
 
 
 func uninstall() -> void:
