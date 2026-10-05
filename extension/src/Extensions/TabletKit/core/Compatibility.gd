@@ -1,6 +1,6 @@
 extends RefCounted
 
-const CanvasSmoothing := preload("res://src/Extensions/TabletKit/CanvasSmoothing.gd")
+const CanvasSmoothing := preload("res://src/Extensions/TabletKit/features/CanvasSmoothing.gd")
 const TOP_BAR_ROW := "MarginContainer/HBoxContainer"
 const LAYOUT_MENU_MEMBERS := ["main_ui", "selected_layout", "layouts_submenu"]
 const LAYOUT_MENU_METHODS := ["set_layout", "populate_layouts_submenu"]

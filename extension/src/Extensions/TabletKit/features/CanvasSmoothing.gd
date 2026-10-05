@@ -1,6 +1,6 @@
 extends RefCounted
 
-const SmoothIndicators := preload("res://src/Extensions/TabletKit/SmoothIndicators.gd")
+const SmoothIndicators := preload("res://src/Extensions/TabletKit/features/SmoothIndicators.gd")
 const FRAGMENT := "void fragment() {"
 const LAYER_HELPERS := """
 vec4 tablet_kit_fetch(ivec2 cell, ivec2 last, int layer) {

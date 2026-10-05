@@ -1,6 +1,6 @@
 extends Node
 
-const Settings := preload("res://src/Extensions/TabletKit/Settings.gd")
+const Settings := preload("res://src/Extensions/TabletKit/core/Settings.gd")
 const RETRY_SECONDS := 2.0
 
 var settings: Settings

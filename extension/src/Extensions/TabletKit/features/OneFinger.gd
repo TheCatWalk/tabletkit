@@ -2,10 +2,10 @@ extends Node
 
 signal double_tapped
 
-const Settings := preload("res://src/Extensions/TabletKit/Settings.gd")
-const CanvasActions := preload("res://src/Extensions/TabletKit/CanvasActions.gd")
-const InputSender := preload("res://src/Extensions/TabletKit/InputSender.gd")
-const PenActivity := preload("res://src/Extensions/TabletKit/PenActivity.gd")
+const Settings := preload("res://src/Extensions/TabletKit/core/Settings.gd")
+const CanvasActions := preload("res://src/Extensions/TabletKit/core/CanvasActions.gd")
+const InputSender := preload("res://src/Extensions/TabletKit/core/InputSender.gd")
+const PenActivity := preload("res://src/Extensions/TabletKit/core/PenActivity.gd")
 const DRAW := "draw"
 const MOVE := "move"
 const PICK := "pick"

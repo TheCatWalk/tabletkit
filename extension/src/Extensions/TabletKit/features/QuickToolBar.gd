@@ -1,7 +1,7 @@
 extends RefCounted
 
-const TouchStepper := preload("res://src/Extensions/TabletKit/TouchStepper.gd")
-const TopBarScroll := preload("res://src/Extensions/TabletKit/TopBarScroll.gd")
+const TouchStepper := preload("res://src/Extensions/TabletKit/features/TouchStepper.gd")
+const TopBarScroll := preload("res://src/Extensions/TabletKit/fixes/TopBarScroll.gd")
 const BAR_NAME := "TabletKitQuickTools"
 const SLIDER_NAMES := ["BrushSize", "DensityValueSlider", "OpacitySlider", "AmountSlider"]
 const SLOTS := [MOUSE_BUTTON_LEFT, MOUSE_BUTTON_RIGHT]

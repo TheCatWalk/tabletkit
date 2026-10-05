@@ -5,9 +5,9 @@ const DIALOG_NAME := "PreferencesDialog"
 const INSERT_AFTER := "Tools"
 const BACKUP_PAGE := "Backup"
 const BACKUP_SECTION_NAME := "TabletKitSaveToFile"
-const RestoreButton := preload("res://src/Extensions/TabletKit/SettingRestoreButton.gd")
-const Settings := preload("res://src/Extensions/TabletKit/Settings.gd")
-const OrientationLayouts := preload("res://src/Extensions/TabletKit/OrientationLayouts.gd")
+const RestoreButton := preload("res://src/Extensions/TabletKit/core/SettingRestoreButton.gd")
+const Settings := preload("res://src/Extensions/TabletKit/core/Settings.gd")
+const OrientationLayouts := preload("res://src/Extensions/TabletKit/features/OrientationLayouts.gd")
 const LONG_PRESS_TOOLS := [
 	["None", ""],
 	["Color Picker", "ColorPicker"],

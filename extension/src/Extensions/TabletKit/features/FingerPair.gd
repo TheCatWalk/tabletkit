@@ -1,6 +1,6 @@
 extends RefCounted
 
-const AndroidBridge := preload("res://src/Extensions/TabletKit/AndroidBridge.gd")
+const AndroidBridge := preload("res://src/Extensions/TabletKit/core/AndroidBridge.gd")
 const LISTENER_INTERFACE := "android.view.View$OnTouchListener"
 const TOOL_TYPE_FINGER := 1
 const ENDING_ACTIONS := [1, 3, 6]

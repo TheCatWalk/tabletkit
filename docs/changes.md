@@ -17,7 +17,9 @@ v0.3 assumed the side button arrived as the right mouse button (index 2, mask 2)
 7. **Palm safety.** Fingers are ignored while the pen touches the screen and for a short moment after. Hold-to-repeat only starts if both fingers land at the same time, because a resting palm settles gradually.
 8. **No crash on quit.** Detaching from Android while Pixelorama was shutting down crashed it. TabletKit now only detaches when it is disabled while Pixelorama keeps running.
 
-## 1.1.0: canvas display quality
+## 1.1.0
+
+### Canvas display quality
 
 On a rotated canvas, pixel edges looked jagged at every zoom. Three causes, each fixed on screen only:
 
@@ -29,13 +31,19 @@ Clip Studio Paint ("Display quality: High quality") and Krita (display filtering
 
 Tried and dropped: MSAA on the canvas viewport (no effect with Godot's Compatibility renderer), and resizing the canvas viewport itself (Godot passes input to it in the smaller coordinates, so every pen position would have needed correcting).
 
-## 1.1.0: tablet workflow
+### Tablet workflow
 
 - **Pen taps on lists.** Tapping a layer with the pen often only highlighted it. Logging showed the pen sends a 1-2 px hover movement as it lifts; Godot's ScrollContainer (scroll deadzone 0 by default) treats any movement after a press as a touch scroll, and starting a scroll cancels the pressed button. TabletKit sets a 10 px deadzone on every ScrollContainer.
 - **Top bar.** Pixelorama's top bar is wider than a portrait screen, which made the whole window wider than the screen and pinned every dock split. TabletKit wraps the bar in a horizontal scroll area, keeps Main Menu and its tool strip pinned on the left, and lets one-finger drags on buttons scroll it.
 - **Tool strip.** Pixelorama's sliders open the on-screen keyboard on a tap. The strip mirrors the pen-tip and side-button tool's main sliders as touch steppers and follows tool, layer and brush changes.
 - **Layouts.** "Tablet" and "Tablet Portrait" are created once after Pixelorama has opened. Pixelorama remembers the selected layout by its position in the list, so TabletKit re-saves that position after adding them.
 - **Save to file.** Optional automatic saving every N seconds and when the app is left, using Pixelorama's normal save without the notification.
+
+### Safety and structure
+
+- **Compatibility checks.** At start, every feature's dependencies on Pixelorama internals are checked; a feature whose checks fail stays off and is listed in Preferences → Touch → Other → Compatibility, so a Pixelorama update can switch off one feature instead of breaking the app.
+- **Clean disable.** Turning TabletKit off restores Pixelorama exactly (shaders, canvas rendering, top bar, scroll lists, save icon, guides). Verified on the tablet before release.
+- **Code layout.** `core/` holds shared plumbing, `fixes/` the always-on corrections to Pixelorama/Godot behaviour, `features/` the optional additions.
 
 ## Ideas that were tried and dropped
 

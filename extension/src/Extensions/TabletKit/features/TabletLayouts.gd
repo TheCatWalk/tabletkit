@@ -1,6 +1,6 @@
 extends RefCounted
 
-const Settings := preload("res://src/Extensions/TabletKit/Settings.gd")
+const Settings := preload("res://src/Extensions/TabletKit/core/Settings.gd")
 const MENU_MEMBERS := ["main_ui", "selected_layout", "layouts_submenu"]
 const LANDSCAPE := "Tablet"
 const PORTRAIT := "Tablet Portrait"

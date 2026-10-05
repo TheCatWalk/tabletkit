@@ -1,6 +1,6 @@
 extends RefCounted
 
-const AndroidBridge := preload("res://src/Extensions/TabletKit/AndroidBridge.gd")
+const AndroidBridge := preload("res://src/Extensions/TabletKit/core/AndroidBridge.gd")
 
 const LISTENER_INTERFACE := "android.view.View$OnGenericMotionListener"
 const ACTION_BUTTON_PRESS := 11

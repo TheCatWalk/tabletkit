@@ -1,8 +1,8 @@
 extends CanvasLayer
 
-const Settings := preload("res://src/Extensions/TabletKit/Settings.gd")
-const StylusButtonGuard := preload("res://src/Extensions/TabletKit/StylusButtonGuard.gd")
-const InputHandlerTweaks := preload("res://src/Extensions/TabletKit/InputHandlerTweaks.gd")
+const Settings := preload("res://src/Extensions/TabletKit/core/Settings.gd")
+const StylusButtonGuard := preload("res://src/Extensions/TabletKit/fixes/StylusButtonGuard.gd")
+const InputHandlerTweaks := preload("res://src/Extensions/TabletKit/fixes/InputHandlerTweaks.gd")
 const BUTTON_NAMES := {
 	MOUSE_BUTTON_NONE: "-",
 	MOUSE_BUTTON_LEFT: "pencil",

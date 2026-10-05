@@ -5,10 +5,10 @@ signal held(finger_count: int)
 signal twist_began
 signal twisted(total_angle: float, pivot: Vector2)
 
-const Settings := preload("res://src/Extensions/TabletKit/Settings.gd")
-const FingerPair := preload("res://src/Extensions/TabletKit/FingerPair.gd")
-const PenActivity := preload("res://src/Extensions/TabletKit/PenActivity.gd")
-const CanvasActions := preload("res://src/Extensions/TabletKit/CanvasActions.gd")
+const Settings := preload("res://src/Extensions/TabletKit/core/Settings.gd")
+const FingerPair := preload("res://src/Extensions/TabletKit/features/FingerPair.gd")
+const PenActivity := preload("res://src/Extensions/TabletKit/core/PenActivity.gd")
+const CanvasActions := preload("res://src/Extensions/TabletKit/core/CanvasActions.gd")
 const MIN_FINGERS := 2
 const TAP_MAX_MSEC := 350
 const TAP_MAX_PAN := 8.0

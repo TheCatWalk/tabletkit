@@ -2,7 +2,7 @@ extends Node
 
 signal long_pressed(canvas_pixel: Vector2i)
 
-const Settings := preload("res://src/Extensions/TabletKit/Settings.gd")
+const Settings := preload("res://src/Extensions/TabletKit/core/Settings.gd")
 
 var settings: Settings
 var _pen_position := Vector2.ZERO

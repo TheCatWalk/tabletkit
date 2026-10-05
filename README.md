@@ -85,6 +85,10 @@ Pixelorama runs on the Godot engine. On Android, Godot mishandles the pen's side
 ## For developers
 
 - `extension/` is the TabletKit source. Zip the `src` folder inside it (or run `python tools/scripts/make_zip.py extension TabletKit.zip`).
+  - `Main.gd` only wires the modules together.
+  - `core/`: settings, the Preferences page, compatibility checks and shared helpers.
+  - `fixes/`: always-on corrections to how Godot and Pixelorama behave with a pen (side button, stylus events, scroll deadzone, scrollable top bar).
+  - `features/`: optional additions, each with its own setting (gestures, finger modes, long press, display quality, tool strip, layouts, save to file).
 - `tools/PenRecorder/` is a small extension that records pen and touch input to `Download/PenRecorder/takeN.jsonl`. It was used to find the problems.
 - `examples/recordings/` holds five recordings from the tablet, made without any fix, showing what Godot actually reports.
 - `docs/changes.md` explains how TabletKit grew out of the first attempt and why each change was made.

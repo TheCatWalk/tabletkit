@@ -1,6 +1,6 @@
 extends RefCounted
 
-const AndroidBridge := preload("res://src/Extensions/TabletKit/AndroidBridge.gd")
+const AndroidBridge := preload("res://src/Extensions/TabletKit/core/AndroidBridge.gd")
 
 var failure := ""
 var _handler = null

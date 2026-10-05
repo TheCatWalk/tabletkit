@@ -1,7 +1,7 @@
 extends RefCounted
 
-const CanvasSmoothing := preload("res://src/Extensions/TabletKit/CanvasSmoothing.gd")
-const CanvasResolution := preload("res://src/Extensions/TabletKit/CanvasResolution.gd")
+const CanvasSmoothing := preload("res://src/Extensions/TabletKit/features/CanvasSmoothing.gd")
+const CanvasResolution := preload("res://src/Extensions/TabletKit/features/CanvasResolution.gd")
 
 var _smoothing := CanvasSmoothing.new()
 var _resolution := CanvasResolution.new()

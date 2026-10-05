@@ -2,7 +2,7 @@ extends Node
 
 signal held_button_changed(button: MouseButton)
 
-const InputSender := preload("res://src/Extensions/TabletKit/InputSender.gd")
+const InputSender := preload("res://src/Extensions/TabletKit/core/InputSender.gd")
 
 var held_button := MOUSE_BUTTON_NONE
 
