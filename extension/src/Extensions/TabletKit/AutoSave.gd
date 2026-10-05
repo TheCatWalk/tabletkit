@@ -4,6 +4,7 @@ const Settings := preload("res://src/Extensions/TabletKit/Settings.gd")
 const RETRY_SECONDS := 2.0
 
 var settings: Settings
+var available := true
 var _timer := Timer.new()
 
 
@@ -13,7 +14,7 @@ func _ready() -> void:
 	add_child(_timer)
 	settings.changed.connect(_on_setting_changed)
 	_restart_timer()
-	_tint_save_button(settings.value("autosave"))
+	_tint_save_button(_enabled())
 
 
 func _exit_tree() -> void:
@@ -24,7 +25,7 @@ func _exit_tree() -> void:
 
 func _notification(what: int) -> void:
 	if what in [NOTIFICATION_APPLICATION_PAUSED, NOTIFICATION_APPLICATION_FOCUS_OUT]:
-		if settings and settings.value("autosave"):
+		if _enabled():
 			save_changed_projects()
 
 
@@ -49,7 +50,7 @@ func _should_save(project: Project) -> bool:
 
 
 func _on_timeout() -> void:
-	if not settings.value("autosave"):
+	if not _enabled():
 		return
 	if save_changed_projects():
 		_restart_timer()
@@ -60,12 +61,16 @@ func _on_timeout() -> void:
 func _on_setting_changed(key: String, _value: Variant) -> void:
 	if key in ["autosave", "autosave_seconds"]:
 		_restart_timer()
-		_tint_save_button(settings.value("autosave"))
+		_tint_save_button(_enabled())
+
+
+func _enabled() -> bool:
+	return available and settings != null and settings.value("autosave")
 
 
 func _restart_timer() -> void:
 	_timer.stop()
-	if settings.value("autosave"):
+	if _enabled():
 		_timer.start(settings.value("autosave_seconds"))
 
 

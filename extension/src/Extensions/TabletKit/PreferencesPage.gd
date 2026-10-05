@@ -26,6 +26,7 @@ const FINGER_ACTIONS := [
 ]
 
 var settings: Settings
+var compatibility_report := ""
 var _dialogs: Node
 var _dialog: Node
 var _page: VBoxContainer
@@ -104,6 +105,7 @@ func _build_page() -> VBoxContainer:
 	var other := _add_section(page, "Other")
 	_add_check(other, "Tool settings in top bar", "quick_tool_bar")
 	_add_check(other, "Status line", "show_status_line")
+	_add_info(other, "Compatibility", compatibility_report)
 	return page
 
 
@@ -127,6 +129,19 @@ func _refresh_layout_choices() -> void:
 			options.add_item(choice[0])
 			options.set_item_metadata(options.item_count - 1, choice[1])
 		options.select(_choice_index(choices, settings.value(key)))
+
+
+func _add_info(grid: GridContainer, text: String, info: String) -> void:
+	var label := Label.new()
+	label.text = text
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var value := Label.new()
+	value.text = info
+	value.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_child(label)
+	grid.add_child(Control.new())
+	grid.add_child(value)
 
 
 func _layout_choices() -> Array:

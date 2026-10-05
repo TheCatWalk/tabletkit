@@ -22,6 +22,7 @@ const TopBarScroll := preload(DIR + "TopBarScroll.gd")
 const OrientationLayouts := preload(DIR + "OrientationLayouts.gd")
 const TabletLayouts := preload(DIR + "TabletLayouts.gd")
 const AutoSave := preload(DIR + "AutoSave.gd")
+const Compatibility := preload(DIR + "Compatibility.gd")
 
 var _settings := Settings.new()
 var _actions := CanvasActions.new()
@@ -43,10 +44,12 @@ var _top_bar := TopBarScroll.new()
 var _orientation_layouts := OrientationLayouts.new()
 var _tablet_layouts := TabletLayouts.new()
 var _auto_save := AutoSave.new()
+var _compatibility := Compatibility.new()
 
 
 func _enter_tree() -> void:
 	_settings.load_from(Global.config_cache)
+	_compatibility.check_all()
 	_configure()
 	_connect_signals()
 	for node in _root_nodes():
@@ -79,6 +82,8 @@ func _configure() -> void:
 	_gestures.pen = _pen_activity
 	_one_finger.pen = _pen_activity
 	_page.settings = _settings
+	_page.compatibility_report = _compatibility.report()
+	_auto_save.available = _compatibility.allows("Save to file")
 	_long_press.settings = _settings
 	_gestures.settings = _settings
 	_gestures.pair = _finger_pair
@@ -108,7 +113,10 @@ func _connect_signals() -> void:
 
 
 func _root_nodes() -> Array[Node]:
-	return [_translator, _long_press, _gestures, _one_finger, _status, _auto_save]
+	var nodes: Array[Node] = [_translator, _long_press, _status, _auto_save]
+	if _compatibility.allows("Gestures"):
+		nodes.append_array([_gestures, _one_finger])
+	return nodes
 
 
 func _setup() -> void:
@@ -119,9 +127,11 @@ func _setup() -> void:
 	_update_finger_pair()
 	_update_canvas_quality()
 	_scroll_deadzone.install()
-	_top_bar.install()
-	_tablet_layouts.install()
-	_orientation_layouts.install()
+	if _compatibility.allows("Top bar"):
+		_top_bar.install()
+	if _compatibility.allows("Layouts"):
+		_tablet_layouts.install()
+		_orientation_layouts.install()
 	_update_quick_tool_bar()
 	_page.install()
 
@@ -182,14 +192,16 @@ func _update_finger_pair() -> void:
 
 
 func _update_quick_tool_bar() -> void:
-	if _settings.value("quick_tool_bar"):
+	if _settings.value("quick_tool_bar") and _compatibility.allows("Tool settings in top bar"):
 		_quick_tool_bar.install()
 	else:
 		_quick_tool_bar.uninstall()
 
 
 func _update_canvas_quality() -> void:
-	_canvas_quality.set_high_quality(_settings.value("display_quality") == "high")
+	_canvas_quality.set_high_quality(
+		_settings.value("display_quality") == "high" and _compatibility.allows("Display quality")
+	)
 
 
 func _on_long_pressed(canvas_pixel: Vector2i) -> void:

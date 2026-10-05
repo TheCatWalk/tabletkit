@@ -47,6 +47,10 @@ It was made on an XPPen Magic Note Pad (Android 14) with the X3 Pro Pencil 2, ru
 
 Everything else can be switched on or off in **Preferences → Touch**.
 
+**Safety**
+- At start, TabletKit checks every part of Pixelorama it relies on. If a Pixelorama update changed one of them, only the affected TabletKit feature switches itself off; Pixelorama keeps working normally. **Preferences → Touch → Other → Compatibility** shows "All features available" or which feature is off and why.
+- Disabling TabletKit in Preferences → Extensions restores Pixelorama exactly as it was.
+
 ## Install
 
 1. Download `TabletKit.zip` from the [Releases](../../releases) page onto your tablet.
