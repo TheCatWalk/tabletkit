@@ -1,0 +1,11 @@
+{
+    "name": "PenRecorder",
+    "display_name": "Pen Recorder",
+    "description": "Records pen and touch input to Download/PenRecorder/takeN.jsonl. Tap the floating REC button to start and stop.",
+    "author": "TheCatWalk",
+    "version": "1.0.0",
+    "license": "MIT",
+    "nodes": [
+        "Main.tscn"
+    ]
+}

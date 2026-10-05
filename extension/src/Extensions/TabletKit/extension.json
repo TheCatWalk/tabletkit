@@ -1,0 +1,11 @@
+{
+    "name": "TabletKit",
+    "display_name": "TabletKit",
+    "description": "Pen and touch improvements for Android tablets: pen side button as eraser, touch gestures, finger canvas moving and pen long press.",
+    "author": "TheCatWalk",
+    "version": "1.0.0",
+    "license": "MIT",
+    "nodes": [
+        "Main.tscn"
+    ]
+}
