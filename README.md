@@ -50,6 +50,14 @@ These come from the tablet or from Android, not from TabletKit:
 - Two-finger rotate and some other parts need Android. On a PC, TabletKit's pen and touch fixes simply do nothing.
 - High quality display covers the main canvas only, not the second canvas or the small preview. Image brushes, tile mode and active selections keep Pixelorama's own brush outline.
 
+## Other extensions
+
+Tested together with TabletKit 1.1.0 on Pixelorama 1.2.3 (Android), all loading without problems: LospecPaletteImporter, ColorChecker, TimeTracking, Skeletor, LineArt, ReferenceUpdater and CopyLayerFx.
+
+Known conflict:
+
+- **LocalCheckerSize.** With Display quality set to High quality, TabletKit sets the transparency checkerboard size every frame from Pixelorama's global setting (scaled to the screen), so LocalCheckerSize's per-project sizes are overwritten. Set Display quality to Default if you need per-project checker sizes.
+
 ## Why this is needed
 
 Pixelorama runs on the Godot engine. On Android, Godot mishandles the pen's side button in three ways, so a plain extension has to work around it. The details, with evidence, are in [docs/android-stylus-findings.md](docs/android-stylus-findings.md).
