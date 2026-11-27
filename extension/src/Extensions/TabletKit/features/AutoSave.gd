@@ -36,7 +36,8 @@ func save_changed_projects() -> bool:
 	Global.show_notification_label = false
 	for project in Global.projects:
 		if _should_save(project):
-			OpenSave.save_pxo_file(project.save_path, false, false, project)
+			project.include_blended_images = false
+			OpenSave.save_pxo_file(project.save_path, false, project)
 	Global.show_notification_label = notifications_were_shown
 	return true
 
